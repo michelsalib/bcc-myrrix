@@ -1,0 +1,203 @@
+{
+    "name": "Myrrix",
+    "apiVersion": "2012-12-15",
+    "description": "Myrrix is a REST client based on Lucene Mahout recommender libs.",
+    "operations": {
+        "GetRecommendation": {
+            "httpMethod": "GET",
+            "uri": "/recommend/{userID}",
+            "summary": "Gets a recommendation for a given user",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID to recommend to",
+                    "required": true,
+                    "type": "integer"
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
+        "GetRecommendationToMany": {
+            "httpMethod": "GET",
+            "uri": "/recommendToMany{/userIDs*}",
+            "summary": "Gets a recommendation for a many user",
+            "parameters": {
+                "userIDs": {
+                    "location": "uri",
+                    "description": "The user IDs to recommend to",
+                    "required": true,
+                    "type": "array"
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
+        "GetEstimation": {
+            "httpMethod": "GET",
+            "uri": "/estimate/{userID}{/itemIDs*}",
+            "summary": "Estimate the strength of the preference, or association, between a user and an item.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID to estimate",
+                    "required": true,
+                    "type": "integer"
+                },
+                "itemIDs": {
+                    "location": "uri",
+                    "description": "The item IDs to estimate",
+                    "required": true,
+                    "type": "array",
+                    "minItems": 1
+                }
+            }
+        },
+        "GetBecause": {
+            "httpMethod": "GET",
+            "uri": "/because/{userID}/{itemID}",
+            "summary": "Attempts to explain why a certain item was recommended to a user.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
+        "GetSimilarity": {
+            "httpMethod": "GET",
+            "uri": "/similarity{/itemIDs*}",
+            "summary": "Computes the items most similar to an item or group of items.",
+            "parameters": {
+                "itemIDs": {
+                    "location": "uri",
+                    "description": "The item IDs to find similarity.",
+                    "required": true,
+                    "type": "array",
+                    "minItems": 1
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
+        "Ingest": {
+            "httpMethod": "POST",
+            "uri": "/ingest",
+            "summary": "Supports bulk-loading new preferences.",
+            "parameters": {
+                "data": {
+                    "description": "New preferences",
+                    "required": true,
+                    "location": "body",
+                    "type": "array",
+                    "minItems": 1,
+                    "filters": ["BCC\\Myrrix\\MyrrixClient::filterIngestData"],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "userID": {
+                                "type": "integer",
+                                "description": "The user ID",
+                                "required": true
+                            },
+                            "itemID": {
+                                "type": "integer",
+                                "description": "The item ID",
+                                "required": true
+                            },
+                            "value": {
+                                "description": "A value describing the strength of the observed association.",
+                                "type": "numeric"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "PostPref": {
+            "httpMethod": "POST",
+            "uri": "/pref/{userID}/{itemID}",
+            "summary": "Adds to a user-item association.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "value": {
+                    "description": "A value describing the strength of the observed association.",
+                    "type": "numeric",
+                    "location": "body"
+                }
+            }
+        },
+        "RemovePref": {
+            "httpMethod": "DELETE",
+            "uri": "/pref/{userID}/{itemID}",
+            "summary": "Removes the item from the user's set of known items.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                }
+            }
+        },
+        "Ready": {
+            "httpMethod": "HEAD",
+            "uri": "/ready",
+            "summary": "Tells whether the Serving Layer is ready to answer requests -- has loaded or computed a model."
+        },
+        "Refresh": {
+            "httpMethod": "POST",
+            "uri": "/refresh",
+            "summary": "Requests that the recommender rebuild its internal state and models."
+        },
+        "GetAllUserIDs": {
+            "httpMethod": "GET",
+            "uri": "/user/allIDs",
+            "summary": "Gets a list of all user ids"
+        },
+        "GetAllItemIDs": {
+            "httpMethod": "GET",
+            "uri": "/item/allIDs",
+            "summary": "Gets a list of all item ids"
+        }
+    }
+}

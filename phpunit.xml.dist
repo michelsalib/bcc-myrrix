@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php">
+
+    <testsuites>
+        <testsuite name="myrrix-client">
+            <directory suffix="Test.php">./src/BCC/Myrrix/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+        </whitelist>
+    </filter>
+
+</phpunit>

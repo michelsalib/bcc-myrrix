@@ -1,0 +1,22 @@
+{
+    "name": "bcc/myrrix",
+    "description": "A Myrrix php client",
+    "type": "library",
+    "keywords": ["recommend", "myrrix", "mahout", "hadoop"],
+    "homepage": "https://github.com/michelsalib/bcc-myrrix",
+    "license": "MIT",
+    "stability": "dev",
+    "autoload": {
+        "psr-0": { "BCC\\Myrrix": "src/" }
+    },
+    "require": {
+        "guzzle/guzzle": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Michel Salib",
+            "email": "michelsalib@hotmail.com",
+            "homepage": "http://www.michelsalib.com"
+        }
+    ]
+}
