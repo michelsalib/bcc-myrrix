@@ -2,7 +2,7 @@
     "name": "bcc/myrrix",
     "description": "A Myrrix php client",
     "type": "library",
-    "keywords": ["recommend", "myrrix", "mahout", "hadoop"],
+    "keywords": ["recommendation", "myrrix", "mahout", "hadoop"],
     "homepage": "https://github.com/michelsalib/bcc-myrrix",
     "license": "MIT",
     "stability": "dev",
