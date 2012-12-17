@@ -4,7 +4,7 @@ Myrrix is a recommendation engine built on [Apache Mahout libraries](http://maho
 
 The library helps you interface with the Rest API. It is build on top of [Guzzle](https://github.com/guzzle/guzzle).
 
-[![Build Status](https://secure.travis-ci.org/michelsalib/bcc-myrrix.png?branch=master)](http://travis-ci.org/michelsalib/bcc-myrrix)
+[![Build Status](https://travis-ci.org/michelsalib/bcc-myrrix.png)](https://travis-ci.org/michelsalib/bcc-myrrix)
 
 ## Installation via Composer
 
