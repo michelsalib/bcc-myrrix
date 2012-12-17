@@ -189,7 +189,7 @@ BODY
 
         // ASSERT
         $this->assertTrue($response->isSuccessful());
-        $this->assertRegExp('/^([\d\.]+\r\n){2}$/', $response->getBody(true));
+        $this->assertRegExp('/^([\d\.]+[^\d\.]+){2}$/', $response->getBody(true));
         $this->assertEquals('http://localhost:8080/estimate/2115287/1020852/1000272', $this->getRequest($plugin)->getUrl());
     }
 
