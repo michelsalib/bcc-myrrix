@@ -39,6 +39,28 @@
                 }
             }
         },
+        "GetRecommendationToAnonymous": {
+            "httpMethod": "GET",
+            "uri": "/recommendToAnonymous{/preferences*}",
+            "summary": "Gets a recommendation for a many user",
+            "parameters": {
+                "preferences": {
+                    "location": "uri",
+                    "description": "The preferences that defines the user. Keys are the items, values are the strengths of the associations.",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                        "description": "A value describing the strength of the observed association.",
+                        "type": "numeric"
+                    }
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
         "GetEstimation": {
             "httpMethod": "GET",
             "uri": "/estimate/{userID}{/itemIDs*}",

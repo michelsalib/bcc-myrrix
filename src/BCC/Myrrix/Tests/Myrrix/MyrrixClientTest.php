@@ -118,6 +118,24 @@ class MyrrixClientTest extends GuzzleTestCase
         $this->assertEquals('http://localhost:8080/recommendToMany/2115287/2299226', $this->getRequest($plugin)->getUrl());
     }
 
+    public function testRecommendationToAnonymous()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200, '[[325,0.53],[98,0.499]]');
+
+        // ACT
+        $command = $client->getCommand('GetRecommendationToAnonymous',
+            array('preferences' => array(115287 => 0.5, 2299226 => 0.7))
+        );
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertEquals(array(array(325,0.53), array(98,0.499)), $response->json());
+        $this->assertEquals('http://localhost:8080/recommendToAnonymous/115287=0.500000/2299226=0.700000', $this->getRequest($plugin)->getUrl());
+    }
+
     public function testReady()
     {
         // ARRANGE

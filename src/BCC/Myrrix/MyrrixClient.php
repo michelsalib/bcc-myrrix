@@ -6,11 +6,16 @@ use Guzzle\Service\Client;
 use Guzzle\Common\Collection;
 use Guzzle\Service\Description\ServiceDescription;
 use Guzzle\Common\Event;
+use Guzzle\Parser\ParserRegistry;
 
 class MyrrixClient extends Client
 {
     public static function factory($config = array())
     {
+        ParserRegistry::getInstance()->registerParser(
+            'uri_template', new MyrrixUriTemplate(ParserRegistry::getInstance()->getParser('uri_template'))
+        );
+
         $default = array(
             'base_url' => 'http://{hostname}:{port}',
             'hostname' => 'localhost',
