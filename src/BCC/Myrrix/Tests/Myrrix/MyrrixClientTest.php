@@ -52,6 +52,48 @@ class MyrrixClientTest extends GuzzleTestCase
         $this->assertEquals('http://localhost:8080/', $this->getRequest($plugin)->getUrl());
     }
 
+    public function testWithUsernamePassword()
+    {
+        // ARRANGE
+        $client = MyrrixClient::factory(array(
+            'username' => 'test',
+            'password' => '1234',
+        ));
+
+        // ACT
+        $request = $client->createRequest();
+
+        // ASSERT
+        $this->assertEquals('Basic '.base64_encode('test:1234'), $request->getHeader('Authorization'));
+    }
+
+    public function testWithoutUsernamePassword()
+    {
+        // ARRANGE
+        $client = MyrrixClient::factory();
+
+        // ACT
+        $request = $client->createRequest();
+
+        // ASSERT
+        $this->assertEquals(null, $request->getHeader('Authorization'));
+    }
+
+    public function testWithNullUsernamePassword()
+    {
+        // ARRANGE
+        $client = MyrrixClient::factory(array(
+            'username' => null,
+            'password' => null,
+        ));
+
+        // ACT
+        $request = $client->createRequest();
+
+        // ASSERT
+        $this->assertEquals(null, $request->getHeader('Authorization'));
+    }
+
     public function testUserIds()
     {
         // ARRANGE

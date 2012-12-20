@@ -70,6 +70,25 @@ $command = $this->client->getCommand('GetRecommendation', array(
 $recommendation = $this->client->execute($command)->json(); // a json of itemId and strength (example: [[325,0.53],[98,0.499]])
 ```
 
+## Authentication
+
+You can choose to host your Myrrix server with authentication:
+
+```
+java -jar myrrix-serving-x.y.jar --localInputDir /path/to/working/dir --port 8080 --userName test --password 1234
+```
+
+In this case, you must specify username/password this way:
+
+``` php
+$this->client = MyrrixClient::factory(array(
+    'hostname' => 'localhost',
+    'port'     => 8080,
+    'username' => 'test',
+    'password' => '1234',
+));
+```
+
 ## More functions
 
 More commands include:
