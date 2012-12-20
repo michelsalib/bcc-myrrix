@@ -5,7 +5,6 @@ namespace BCC\Myrrix;
 use Guzzle\Service\Client;
 use Guzzle\Common\Collection;
 use Guzzle\Service\Description\ServiceDescription;
-use Guzzle\Common\Event;
 use Guzzle\Parser\ParserRegistry;
 use Guzzle\Plugin\CurlAuth\CurlAuthPlugin;
 

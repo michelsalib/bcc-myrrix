@@ -45,29 +45,17 @@ It will run a server on port 8080 and using the `/path/to/working/dir` directory
 You can now access your recommendation engine in php:
 
 ``` php
-// Get a client
-$this->client = MyrrixClient::factory(array(
-    'hostname' => 'localhost',
-    'port'     => 8080,
-));
+// Instanciate the Myrrix service
+$myrrix = new MyrrixService('localhost', 8080);
 
 // Put a user/item assocation, here use #101 as an association of strength 0.5 with item #1000
-$command = $this->client->getCommand('PostPref', array(
-    'userID' => 101,
-    'itemID' => 1000,
-    'value'  => (string)0.5,
-));
-$this->client->execute($command);
+$myrrix->setPreference(101, 1000, 0.5);
 
 // Refresh the index
-$command = $this->client->getCommand('Refresh');
-$this->client->execute($command);
+$myrrix->refresh();
 
 // Get a recommendation for user #101
-$command = $this->client->getCommand('GetRecommendation', array(
-    'userID' => 101,
-));
-$recommendation = $this->client->execute($command)->json(); // a json of itemId and strength (example: [[325,0.53],[98,0.499]])
+$recommendation = $myrrix->getRecommendation(101); // an array of itemId and strength (example: [[325,0.53],[98,0.499]])
 ```
 
 ## Authentication
@@ -81,21 +69,16 @@ java -jar myrrix-serving-x.y.jar --localInputDir /path/to/working/dir --port 808
 In this case, you must specify username/password this way:
 
 ``` php
-$this->client = MyrrixClient::factory(array(
-    'hostname' => 'localhost',
-    'port'     => 8080,
-    'username' => 'test',
-    'password' => '1234',
-));
+$myrrix = new MyrrixService('localhost', 8080, 'test', '1234');
 ```
 
 ## More functions
 
-More commands include:
+More functions include:
 - Recommendation to many users
 - Recommendation to anonymous
 - More similar items
 - Batch insertion of preferences
 - ...
 
-You can get a full list of commands in the [service.json](https://github.com/michelsalib/bcc-myrrix/blob/master/src/BCC/Myrrix/service.json) description file.
+You can get a full list of functions in the [MyrrixService.php](https://github.com/michelsalib/bcc-myrrix/blob/master/src/BCC/Myrrix/MyrrixService.php) file.
