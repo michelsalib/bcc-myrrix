@@ -39,7 +39,7 @@ class MyrrixService
     public function getRecommendation($userId, $count = null)
     {
         $command = $this->client->getCommand('GetRecommendation', array(
-            'userId'  => $userId,
+            'userID'  => $userId,
             'howMany'  => $count,
         ));
 
@@ -58,7 +58,7 @@ class MyrrixService
     public function getRecommendationToMany(array $userIds, $count = null)
     {
         $command = $this->client->getCommand('GetRecommendationToMany', array(
-            'userIds'  => $userIds,
+            'userIDs'  => $userIds,
             'howMany'  => $count,
         ));
 
@@ -148,7 +148,7 @@ class MyrrixService
     public function getBecause($userId, $itemId)
     {
         $command = $this->client->getCommand('GetBecause', array(
-            'userId'  => $userId,
+            'userID'  => $userId,
             'itemID'  => $itemId,
         ));
 
@@ -166,7 +166,7 @@ class MyrrixService
     public function getEstimations($userId, array $itemIds)
     {
         $command = $this->client->getCommand('GetEstimation', array(
-            'userId'  => $userId,
+            'userID'  => $userId,
             'itemIDs' => $itemIds,
         ));
 
