@@ -194,6 +194,42 @@ class MyrrixService
     }
 
     /**
+     * Gets similarity to items
+     *
+     * @param int   $toItemId
+     * @param array $itemIds The item ids
+     *
+     * @return array
+     */
+    public function getSimilarityToItems($toItemId, array $itemIds)
+    {
+        $command = $this->client->getCommand('GetSimilarityToItem', array(
+            'toItemID' => $toItemId,
+            'itemIDs'  => $itemIds,
+        ));
+
+        $result = $this->client->execute($command)->getBody(true);
+
+        return preg_split('/\r\n/', trim($result));
+    }
+
+    /**
+     * Gets most similar items
+     *
+     * @param int $count The number of result to retrieve
+     *
+     * @return array
+     */
+    public function getMostPopularItems($count = null)
+    {
+        $command = $this->client->getCommand('GetMostPopularItems', array(
+            'howMany'      => $count,
+        ));
+
+        return $this->client->execute($command)->json();
+    }
+
+    /**
      * Gets the list of users
      *
      * @return int[]

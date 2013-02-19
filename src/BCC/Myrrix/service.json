@@ -124,6 +124,43 @@
                 }
             }
         },
+        "GetSimilarityToItem": {
+            "httpMethod": "GET",
+            "uri": "/similarityToItem/{toItemID}{/itemIDs*}",
+            "summary": "Computes the similarity to an item of a given set of other items.",
+            "parameters": {
+                "toItemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "itemIDs": {
+                    "location": "uri",
+                    "description": "The item IDs to find similarity.",
+                    "required": true,
+                    "type": "array",
+                    "minItems": 1
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
+        "GetMostPopularItems": {
+            "httpMethod": "GET",
+            "uri": "/mostPopularItems",
+            "summary": "Computes the items most popular overall (interacted with by the most users).",
+            "parameters": {
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
+                }
+            }
+        },
         "Ingest": {
             "httpMethod": "POST",
             "uri": "/ingest",

@@ -271,6 +271,50 @@ BODY
         $this->assertEquals('http://localhost:8080/similarity/1020852/1000272', $this->getRequest($plugin)->getUrl());
     }
 
+    public function testSimilarityToItem()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200, <<<BODY
+0.53
+0.499
+
+BODY
+        );
+
+        // ACT
+        $command = $client->getCommand('GetSimilarityToItem', array(
+            'toItemID' => 1020000,
+            'itemIDs' => array(1020852, 1000272),
+        ));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertRegExp('/^([\d\.]+[^\d\.]+){2}$/', $response->getBody(true));
+        $this->assertEquals('http://localhost:8080/similarityToItem/1020000/1020852/1000272', $this->getRequest($plugin)->getUrl());
+    }
+
+    public function testMostPopularItems()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200, '[[325,0.53],[98,0.499]]');
+
+        // ACT
+        $command = $client->getCommand('GetMostPopularItems', array('itemIDs' => array(1020852, 1000272)));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals(array(array(325,0.53), array(98,0.499)), $response->json());
+        $this->assertEquals('http://localhost:8080/mostPopularItems', $this->getRequest($plugin)->getUrl());
+    }
+
     public function testIngest()
     {
         // ARRANGE
