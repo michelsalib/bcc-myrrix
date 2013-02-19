@@ -49,7 +49,7 @@ class MyrrixClientTest extends GuzzleTestCase
 
         // ASSERT
         $this->assertTrue($response->isSuccessful());
-        $this->assertEquals('http://localhost:8080/', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('http://localhost:8080', $this->getRequest($plugin)->getUrl());
     }
 
     public function testWithUsernamePassword()
