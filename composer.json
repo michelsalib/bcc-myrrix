@@ -6,11 +6,15 @@
     "homepage": "https://github.com/michelsalib/bcc-myrrix",
     "license": "MIT",
     "stability": "dev",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "BCC\\Myrrix": "src/" }
     },
     "require": {
         "guzzle/guzzle": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~3.8"
     },
     "authors": [
         {

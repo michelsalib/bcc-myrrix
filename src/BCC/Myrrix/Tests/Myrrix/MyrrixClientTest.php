@@ -178,6 +178,27 @@ class MyrrixClientTest extends GuzzleTestCase
         $this->assertEquals('http://localhost:8080/recommendToAnonymous/115287=0.500000/2299226=0.700000', $this->getRequest($plugin)->getUrl());
     }
 
+    public function testEstimationForAnonymous()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200, '0.65');
+
+        // ACT
+        $command = $client->getCommand('GetEstimationForAnonymous',
+            array(
+                'itemID'      => 135,
+                'preferences' => array(115287 => 0.5, 2299226 => 0.7),
+            )
+        );
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertEquals(0.65, $response->getBody(true));
+        $this->assertEquals('http://localhost:8080/estimateForAnonymous/135/115287=0.500000/2299226=0.700000', $this->getRequest($plugin)->getUrl());
+    }
+
     public function testReady()
     {
         // ARRANGE
@@ -373,6 +394,118 @@ BODY
         // ASSERT
         $this->assertTrue($response->isSuccessful());
         $this->assertEquals('http://localhost:8080/pref/2115287/1', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('DELETE', $this->getRequest($plugin)->getMethod());
+    }
+
+    public function testPostUserTag()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('PostUserTag', array('userID' => 2115287, 'tag' => 'gender'));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/user/2115287/gender', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('POST', $this->getRequest($plugin)->getMethod());
+        $this->assertEquals('1.0', (string)$this->getRequest($plugin)->getBody());
+    }
+
+    public function testPostUserTagWithValue()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('PostUserTag', array('userID' => 2115287, 'tag' => 'gender', 'value' => (string)2.0));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/user/2115287/gender', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('POST', $this->getRequest($plugin)->getMethod());
+        $this->assertEquals('2', (string)$this->getRequest($plugin)->getBody());
+    }
+
+    public function testRemoveUserTag()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('RemoveUserTag', array('userID' => 2115287, 'tag' => 'gender'));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/user/2115287/gender', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('DELETE', $this->getRequest($plugin)->getMethod());
+    }
+
+    public function testPostItemTag()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('PostItemTag', array('itemID' => 2115287, 'tag' => 'color'));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/item/2115287/color', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('POST', $this->getRequest($plugin)->getMethod());
+        $this->assertEquals('1.0', (string)$this->getRequest($plugin)->getBody());
+    }
+
+    public function testPostItemTagWithValue()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('PostItemTag', array('itemID' => 2115287, 'tag' => 'color', 'value' => (string)8.0));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/item/2115287/color', $this->getRequest($plugin)->getUrl());
+        $this->assertEquals('POST', $this->getRequest($plugin)->getMethod());
+        $this->assertEquals('8', (string)$this->getRequest($plugin)->getBody());
+    }
+
+    public function testRemoveItemTag()
+    {
+        // ARRANGE
+        $plugin = new MockPlugin();
+        $client = $this->prepareClient($plugin, 200);
+
+        // ACT
+        $command = $client->getCommand('RemoveItemTag', array('itemID' => 2115287, 'tag' => 'color'));
+
+        /** @var $response Response */
+        $response = $client->execute($command);
+
+        // ASSERT
+        $this->assertTrue($response->isSuccessful());
+        $this->assertEquals('http://localhost:8080/tag/item/2115287/color', $this->getRequest($plugin)->getUrl());
         $this->assertEquals('DELETE', $this->getRequest($plugin)->getMethod());
     }
 }

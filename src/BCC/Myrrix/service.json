@@ -42,7 +42,7 @@
         "GetRecommendationToAnonymous": {
             "httpMethod": "GET",
             "uri": "/recommendToAnonymous{/preferences*}",
-            "summary": "Gets a recommendation for a many user",
+            "summary": "Gets a recommendation for an anonymous user",
             "parameters": {
                 "preferences": {
                     "location": "uri",
@@ -78,6 +78,35 @@
                     "required": true,
                     "type": "array",
                     "minItems": 1
+                }
+            }
+        },
+        "GetEstimationForAnonymous": {
+            "httpMethod": "GET",
+            "uri": "/estimateForAnonymous/{itemID}{/preferences*}",
+            "summary": "Gets an recommendation for an anonymous user",
+            "responseType": "number",
+            "parameters": {
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "preferences": {
+                    "location": "uri",
+                    "description": "The preferences that defines the user. Keys are the items, values are the strengths of the associations.",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                        "description": "A value describing the strength of the observed association.",
+                        "type": "numeric"
+                    }
+                },
+                "howMany": {
+                    "location": "query",
+                    "description": "Maximum number of recommendations to return.",
+                    "type": "integer"
                 }
             }
         },
@@ -235,6 +264,96 @@
                     "description": "The item ID",
                     "required": true,
                     "type": "integer"
+                }
+            }
+        },
+        "PostUserTag": {
+            "httpMethod": "POST",
+            "uri": "/tag/user/{userID}/{tag}",
+            "summary": "Adds a tag to a user.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "tag": {
+                    "location": "uri",
+                    "description": "The tag name",
+                    "required": true,
+                    "type": "string"
+                },
+                "value": {
+                    "description": "The value of the tag.",
+                    "type": "number",
+                    "location": "body",
+                    "required": true,
+                    "default": "1.0"
+                }
+            }
+        },
+        "RemoveUserTag": {
+            "httpMethod": "DELETE",
+            "uri": "/tag/user/{userID}/{tag}",
+            "summary": "Remove a tag from a user.",
+            "parameters": {
+                "userID": {
+                    "location": "uri",
+                    "description": "The user ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "tag": {
+                    "location": "uri",
+                    "description": "The tag name",
+                    "required": true,
+                    "type": "string"
+                }
+            }
+        },
+        "PostItemTag": {
+            "httpMethod": "POST",
+            "uri": "/tag/item/{itemID}/{tag}",
+            "summary": "Adds a tag to an item.",
+            "parameters": {
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "tag": {
+                    "location": "uri",
+                    "description": "The tag name",
+                    "required": true,
+                    "type": "string"
+                },
+                "value": {
+                    "description": "The value of the tag.",
+                    "type": "number",
+                    "location": "body",
+                    "required": true,
+                    "default": "1.0"
+                }
+            }
+        },
+        "RemoveItemTag": {
+            "httpMethod": "DELETE",
+            "uri": "/tag/item/{itemID}/{tag}",
+            "summary": "Remove a tag from an item.",
+            "parameters": {
+                "itemID": {
+                    "location": "uri",
+                    "description": "The item ID",
+                    "required": true,
+                    "type": "integer"
+                },
+                "tag": {
+                    "location": "uri",
+                    "description": "The tag name",
+                    "required": true,
+                    "type": "string"
                 }
             }
         },

@@ -29,6 +29,14 @@ class MyrrixUriTemplate implements UriTemplateInterface
             return $result;
         }
 
+        if ($template == '/estimateForAnonymous/{itemID}{/preferences*}') {
+            $result = '/estimateForAnonymous/'.$variables['itemID'];
+            foreach ($variables['preferences'] as $key => $variable) {
+                $result .= sprintf('/%d=%f', $key, $variable);
+            }
+            return $result;
+        }
+
         return $this->uriTemplate->expand($template, $variables);
     }
 }

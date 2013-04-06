@@ -138,6 +138,82 @@ class MyrrixService
     }
 
     /**
+     * Sets an user tag
+     *
+     * @param int    $userId The user id
+     * @param string $tag    The tag name
+     * @param float  $value  The value of the tag
+     *
+     * @return bool
+     */
+    public function setUserTag($userId, $tag, $value = null)
+    {
+        $command = $this->client->getCommand('PostUserTag', array(
+            'userID' => $userId,
+            'tag'    => $tag,
+            'value'  => $value !== null ? (string)$value : null,
+        ));
+
+        return $this->client->execute($command)->isSuccessful();
+    }
+
+    /**
+     * Removes a tag from an user
+     *
+     * @param int    $userId The user id
+     * @param string $tag    The tag name
+     *
+     * @return bool
+     */
+    public function removeUserTag($userId, $tag)
+    {
+        $command = $this->client->getCommand('RemoveUserTag', array(
+            'userID' => $userId,
+            'tag'    => $tag,
+        ));
+
+        return $this->client->execute($command)->isSuccessful();
+    }
+
+    /**
+     * Sets an item tag
+     *
+     * @param int    $itemId The item id
+     * @param string $tag    The tag name
+     * @param float  $value  The value of the tag
+     *
+     * @return bool
+     */
+    public function setItemTag($itemId, $tag, $value = null)
+    {
+        $command = $this->client->getCommand('PostItemTag', array(
+            'itemID' => $itemId,
+            'tag'    => $tag,
+            'value'  => $value !== null ? (string)$value : null,
+        ));
+
+        return $this->client->execute($command)->isSuccessful();
+    }
+
+    /**
+     * Removes a tag from an item
+     *
+     * @param int    $itemId The item id
+     * @param string $tag    The tag name
+     *
+     * @return bool
+     */
+    public function removeItemTag($itemId, $tag)
+    {
+        $command = $this->client->getCommand('RemoveItemTag', array(
+            'itemID' => $itemId,
+            'tag'    => $tag,
+        ));
+
+        return $this->client->execute($command)->isSuccessful();
+    }
+
+    /**
      * Attempts to explain a recommendation by giving most significant associations of the model.
      *
      * @param int   $userId The user id
@@ -173,6 +249,26 @@ class MyrrixService
         $result = $this->client->execute($command)->getBody(true);
 
         return preg_split('/\r\n/', trim($result));
+    }
+
+    /**
+     * Gets an estimation for an unknown user, infer its tastes using a preference array.
+     *
+     * @param int   $itemId      The item id
+     * @param array $preferences The known preferences of the unknown user
+     * @param int   $count       The number of result to retrieve
+     *
+     * @return float
+     */
+    public function getEstimationToAnonymous($itemId, array $preferences = array(), $count = null)
+    {
+        $command = $this->client->getCommand('GetEstimationForAnonymous', array(
+            'itemID'       => $itemId,
+            'preferences'  => $preferences,
+            'howMany'      => $count,
+        ));
+
+        return $this->client->execute($command)->getBody(true);
     }
 
     /**
