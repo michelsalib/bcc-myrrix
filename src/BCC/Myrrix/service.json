@@ -314,7 +314,7 @@
         },
         "PostItemTag": {
             "httpMethod": "POST",
-            "uri": "/tag/item/{itemID}/{tag}",
+            "uri": "/tag/item/{tag}/{itemID}",
             "summary": "Adds a tag to an item.",
             "parameters": {
                 "itemID": {
